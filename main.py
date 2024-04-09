@@ -28,7 +28,6 @@ def main(args):
     device = args.device
     img_size = args.img_size
 
-    # 加载渲染器，因为我们会在256和512两个尺度上进行优化，所以为每个尺度分别定义一个渲染器
     fov_256 = 2 * np.arctan(args.center_256 / args.focal_256) * 180 / np.pi
     renderer_256 = MeshRenderer(
         rasterize_fov=fov_256, znear=args.z_near, zfar=args.z_far, rasterize_size=int(2 * args.center_256), use_opengl=True
@@ -67,7 +66,6 @@ def main(args):
         recon_dict = deep3dmodel.recontruct(img, lms)
 
         if args.use_preprocess:
-            # 获得内容图像，风格图像和可见性掩模
             print('begin to preprocess input image')
             img = menpo.image.Image(recon_dict['input'])
             inter_results = uv_helper.data_preprocess(args, img, recon_dict, img_name, parsing_mask=None)

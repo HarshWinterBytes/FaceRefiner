@@ -29,14 +29,9 @@ def perceptual_loss(id_featureA, id_featureB):
 
 
 def pairwise_distances_cos(x, y):
-    # x ** 2 为x与x之间个元素之间相乘，sum(1)在行方向上求和，若X为[2048, 2179]，则(x ** 2).sum(1)后的shape为[1, 2048]，view之后为[2048, 1]
-    # x_norm的每个元素和每个超列的各元素平方之和再开方，形状为[2048, 1]
     x_norm = torch.sqrt((x ** 2).sum(1).view(-1, 1))
-    # y_t为y的转置，如果y的形状为[2048, 2179]，则转置后的矩阵为[2179, 2048]
     y_t = torch.transpose(y, 0, 1)
-    # x_norm的每个元素和每个超列的各元素平方之和再开方，形状为[1, 2048]
     y_norm = torch.sqrt((y ** 2).sum(1).view(1, -1))
-    # torch.mm为矩阵乘法，例如[1, 2]的矩阵乘以[2, 3]的矩阵结果为[1, 3]的矩阵，dist形状为[2048, 2048]
     dist = 1. - torch.mm(x, y_t) / x_norm / y_norm
     return dist
 
@@ -67,11 +62,6 @@ def rgb_to_yuv(rgb):
 
 
 def content_loss_new(content_feat, stylized_feat):
-    """
-    :param content_feat: 从VGG16的深层中提取出来的内容图像的特征图
-    :param stylized_feat: 从VGG16的深层中提取出来的待优化图像的特征图
-    :return: content loss（与STROTSS不同，这里的内容损失是最初的神经风格迁移算法的版本，即直接用VGG网络的深层特征表示图像的结构特征
-    """
     L2loss = torch.nn.MSELoss()
     content_loss = L2loss(content_feat[-2], stylized_feat[-2])
     content_loss += L2loss(content_feat[-1], stylized_feat[-1])
@@ -80,13 +70,7 @@ def content_loss_new(content_feat, stylized_feat):
 
 
 def content_loss(feat_result, feat_content):
-    """
-    :param feat_result: shape: [1, 2179, 2048, 1]，2048为超列的个数，2179为超列的长度
-    :param feat_content: [1, 2179, 2048, 1]，2048为超列的个数，2179为超列的长度
-    :return: content loss
-    """
     d = feat_result.size(1)
-    # X: [2048, 2179], Y: [2048, 2179]，X和Y为超列矩阵，每行为一个超列
     X = feat_result.transpose(0, 1).contiguous().view(d, -1).transpose(0, 1)
     Y = feat_content.transpose(0, 1).contiguous().view(d, -1).transpose(0, 1)
 
@@ -102,31 +86,21 @@ def content_loss(feat_result, feat_content):
 
 
 def remd_loss(X, Y, cos_d=True):
-    """
-    :param X: shape: [1, 2179, 2048, 1]，2048为超列的个数，2179为超列的长度
-    :param Y: shape: [1, 2179, 5000, 1]，5000为超列的个数，2179为超列的长度
-    :param cos_d:
-    :return: style structure loss
-    """
     d = X.shape[1]
     if d == 3:
         X = rgb_to_yuv(X.transpose(0, 1).contiguous().view(d, -1)).transpose(0, 1)
         Y = rgb_to_yuv(Y.transpose(0, 1).contiguous().view(d, -1)).transpose(0, 1)
     else:
-        # X: [2048, 2179], Y: [5000, 2179]，X和Y为超列矩阵，每行为一个超列
         X = X.transpose(0, 1).contiguous().view(d, -1).transpose(0, 1)
         Y = Y.transpose(0, 1).contiguous().view(d, -1).transpose(0, 1)
 
-    # CX_M: [2048, 5000](这里是以计算Lr为例)
     CX_M = distmat(X, Y, cos_d=cos_d)
 
-    # m1: [2048]，即输出图像中的每个超列与风格图像中所有超列的最小余弦距离
-    # m2: [5000]，即风格图像中的每个超列与输出图像中所有超列的最小余弦距离
     m1, m1_inds = CX_M.min(1)
     m2, m2_inds = CX_M.min(0)
 
-    remd = torch.max(m1.mean(), m2.mean())
-    # remd = m1.mean()
+    # remd = torch.max(m1.mean(), m2.mean())
+    remd = m1.mean()
 
     flag = 'equal'
     if m1.mean() > m2.mean():

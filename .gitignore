@@ -1,4 +1,4 @@
-# /external/deep3dfacerecon_pytorch/BFM/
+/external/deep3dfacerecon_pytorch/BFM/
 /external/deep3dfacerecon_pytorch/nvdiffrast/
 /external/deep3dfacerecon_pytorch/insightface/
 /external/deep3dfacerecon_pytorch/models/
@@ -6,5 +6,4 @@
 **/__pycache__
 /.idea
 /.vscode
-*.sh
-*.log
+/outputs
