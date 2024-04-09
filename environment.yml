@@ -1,5 +1,6 @@
 name: face_refiner
 channels:
+  - pytorch
   - conda-forge
   - defaults
 dependencies:
@@ -12,7 +13,7 @@ dependencies:
   - ca-certificates=2023.11.17=hbcca054_0
   - certifi=2023.11.17=pyhd8ed1ab_0
   - cloudpickle=2.2.1=pyhd8ed1ab_0
-  - cudatoolkit=10.2.89=hdec6ad0_12
+  - cudatoolkit=11.1
   - cycler=0.11.0=pyhd8ed1ab_0
   - cytoolz=0.12.0=py37h540881e_0
   - dask-core=2021.12.0=pyhd8ed1ab_0
@@ -110,7 +111,6 @@ dependencies:
       - menpo==0.11.0
       - menpo3d==0.8.5
       - moderngl==5.8.2
-      - nvdiffrast==0.3.0
       - opencv-python==3.4.9.33
       - opt-einsum==3.3.0
       - protobuf==3.19.0
@@ -124,9 +124,9 @@ dependencies:
       - termcolor==2.3.0
       - threadpoolctl==3.1.0
       - tifffile==2021.11.2
-      - torch==1.8.1+cu111
+      - torch==1.8.1
       - torchaudio==0.8.1
-      - torchvision==0.9.1+cu111
+      - torchvision==0.9.1
       - traits==6.4.2
       - traitsui==8.0.0
       - trimesh==3.9.20
