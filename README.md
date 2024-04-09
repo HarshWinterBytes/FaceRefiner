@@ -93,7 +93,7 @@ python setup.py build_ext -i
 ```
 
 ## Usage
-- Run
+- Run example of figure 7 (content images are from Deep3DFace) and figure 8 (content images are from OSTeC) from original paper.
  ```
  sh run.sh
  ```
