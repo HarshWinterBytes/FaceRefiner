@@ -5,7 +5,7 @@ Recent facial texture generation methods prefer to use deep networks to synthesi
 
 ## Overview
 
-<p align="center"><img width="100%" src="figures/overview4.pdf" style="background-color:white;" /></p>
+<p align="center"><img width="100%" src="figures/overview.png" style="background-color:white;" /></p>
 The overview of our proposed FaceRefiner. The inputs of FaceRefiner include the face image I, the 3D face reconstruction results (3D model M and camera pose P, sampled texture I<sub>S</sub>) and the initial imperfect texture I<sub>C</sub> produced by an existing facial texture generation method. The differentiable rendering-based style transfer is adopted to improve the quality of I<sub>C</sub>. The differentiable renderer is employed to produce rendered image I<sub>R</sub> of the inputted camera pose P. Then the rendering loss is calculated to measure the inconsistency between rendered and inputted image, and the gradients are back-propagated to a classical style transfer module containing style and content loss to optimize the facial texture I<sub>X</sub>.
 <br/>
 
