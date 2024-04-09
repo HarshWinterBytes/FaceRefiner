@@ -44,6 +44,8 @@ FaceRefiner
               │
               └─── 01_MorphableModel.mat
               │
+              └─── BFM_model_front.mat
+              │
               └─── Exp_Pca.bin
               |
               └─── ...
