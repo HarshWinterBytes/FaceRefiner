@@ -9,14 +9,20 @@ The overview of our proposed FaceRefiner. The inputs of FaceRefiner include the 
 ## Requirements
 **This implementation is tested under Ubuntu 22.04 environment with Nvidia GPUs 3090**
 
+```
+python 3.7
+CUDA 11.1
+pytorch 1.8.1
+```
+
 ## Installation
 ### 1. Clone the repository and set up a conda environment as follows:
 ```
 git clone https://github.com/HarshWinterBytes/FaceRefiner
 cd FaceRefiner
 conda env create -f environment.yml
-pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
 conda activate face_refiner
+pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
 ```
 
 ### 2. Installation of Deep3DFaceRecon_pytorch
@@ -97,9 +103,6 @@ python setup.py build_ext -i
  ```
  sh run.sh
  ```
-
-## License
-- The source code shared here is protected under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License which does **NOT** allow commercial  use. To view a copy of this license, see LICENSE
 
 
 ## Acknowledgement
